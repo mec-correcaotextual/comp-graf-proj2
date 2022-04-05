@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from geo import Vertice, Triangle
+from geo import Camera, Triangle, Vertice
 
 
 class Loader(ABC):
@@ -11,9 +11,9 @@ class Loader(ABC):
         pass
 
 
-class InputLoader(Loader):
+class TriangleLoader(Loader):
 
-    def load(self, file):
+    def load(self, file) -> List[Triangle]:
         try:
             triangles = []
 
@@ -50,8 +50,31 @@ class InputLoader(Loader):
         return selected_vertices
 
 
+class CameraLoader(Loader):
+
+    def load(self, file):
+        try:
+            with open(file, 'r') as f:
+                lines = f.readlines()
+                N = Vertice(*[int(e) for e in lines[0].split()])
+                V = Vertice(*[int(e) for e in lines[1].split()])
+                d = int(lines[2])
+                hx = int(lines[3])
+                hy = int(lines[4])
+                C = Vertice(*[int(e) for e in lines[5].split()])
+                camera = Camera(N, V, d, hx, hy, C)
+            return camera
+        except FileNotFoundError:
+            print('Camera file was not found')
+
+
+
 if __name__ == '__main__':
-    tl = InputLoader()
-    triangles = tl.load('input.txt')
+    tl = TriangleLoader()
+    triangles = tl.load('data/input.txt')
     for t in triangles:
         print(t)
+
+    cl = CameraLoader()
+    camera = cl.load('data/camera.txt')
+    print(camera)
