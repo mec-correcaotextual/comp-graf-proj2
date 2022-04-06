@@ -1,7 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from geo import Camera, Triangle, Vertice
+import numpy as np
+
+from geo import Camera, Triangle
+from calc import Matrix, Vector
 
 
 class Loader(ABC):
@@ -24,7 +27,7 @@ class TriangleLoader(Loader):
 
                 for line in lines[1:number_vertices+1]:
                     x, y, z = line.split()
-                    vertices.append(Vertice(x, y, z))
+                    vertices.append(np.array([x, y, z]))
 
                 for line in lines[number_vertices+1:]:
                     a, b, c = line.split()
@@ -50,23 +53,31 @@ class TriangleLoader(Loader):
         return selected_vertices
 
 
-class CameraLoader(Loader):
+class CameraLoader(Loader, Matrix, Vector):
 
     def load(self, file):
+        N, V, d, hx, hy, C = self.get_values(file)
+        V_ = self.orth(N, V)
+        V_norm = self.normalize(V_)
+        N_norm = self.normalize(N)        
+        U = self.cross_prod(N, V_)
+        U_norm = self.normalize(U)
+        return Camera(N_norm, V_norm, d, hx, hy, C, U_norm)
+
+
+    def get_values(self, file):
         try:
             with open(file, 'r') as f:
                 lines = f.readlines()
-                N = Vertice(*[int(e) for e in lines[0].split()])
-                V = Vertice(*[int(e) for e in lines[1].split()])
+                N = np.array([int(e) for e in lines[0].split()])
+                V = np.array([int(e) for e in lines[1].split()])
                 d = int(lines[2])
                 hx = int(lines[3])
                 hy = int(lines[4])
-                C = Vertice(*[int(e) for e in lines[5].split()])
-                camera = Camera(N, V, d, hx, hy, C)
-            return camera
+                C = np.array([int(e) for e in lines[5].split()])
+            return N, V, d, hx, hy, C
         except FileNotFoundError:
             print('Camera file was not found')
-
 
 
 if __name__ == '__main__':
@@ -76,5 +87,5 @@ if __name__ == '__main__':
         print(t)
 
     cl = CameraLoader()
-    camera = cl.load('data/camera.txt')
+    camera = cl.load('data/camera_test.txt')
     print(camera)
