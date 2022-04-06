@@ -89,3 +89,4 @@ if __name__ == '__main__':
     cl = CameraLoader()
     camera = cl.load('data/camera_test.txt')
     print(camera)
+    print(camera.world2sight(np.array([1, -3, -5])))

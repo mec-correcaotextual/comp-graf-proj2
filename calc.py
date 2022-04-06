@@ -4,7 +4,8 @@ import numpy as np
 
 
 class Matrix:
-    def mult_matrix_vec(M, V):
+    @classmethod
+    def mult_matrix_vec(cls, M, V):
         aux = []
         for i in range(M.shape[0]):
             sum = 0.0
