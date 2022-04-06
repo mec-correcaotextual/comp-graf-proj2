@@ -2,8 +2,10 @@ import pygame
 
 import settings
 
-from drawing import Drawer
+from drawing import Drawer, TriangleDrawer
+from geo import Triangle
 from loaders import TriangleLoader, CameraLoader
+
 
 def main():
     pygame.init()
@@ -29,18 +31,11 @@ def main():
         
         window.fill('black')
 
+        TriangleDrawer.draw(window, Triangle(v1, v2, v3), pygame.Color(255, 255, 255))
+
         Drawer.draw_pixel(window, v1[0], v1[1], pygame.Color(255, 255, 255))
         Drawer.draw_pixel(window, v2[0], v2[1], pygame.Color(255, 255, 255))
         Drawer.draw_pixel(window, v3[0], v3[1], pygame.Color(255, 255, 255))
-        # Drawer.draw_pixel(window, 10, 10, pygame.Color(255, 255, 255))
-
-        # for triangle in triangles:
-        #     v1 = camera.get_screen_coord(triangle.v1, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
-        #     v2 = camera.get_screen_coord(triangle.v2, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
-        #     v3 = camera.get_screen_coord(triangle.v3, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
-        #     Drawer.draw_pixel(window, v1[0], v1[1], pygame.Color(0, 0, 0))
-        #     Drawer.draw_pixel(window, v2[0], v2[1], pygame.Color(0, 0, 0))
-        #     Drawer.draw_pixel(window, v3[0], v3[1], pygame.Color(0, 0, 0))
 
         pygame.display.update()
 
