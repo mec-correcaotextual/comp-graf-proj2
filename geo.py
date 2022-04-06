@@ -16,11 +16,23 @@ class Triangle:
 class Camera(Vector, Matrix):
     N: np.ndarray
     V: np.ndarray
-    d: int
-    hx: int
-    hy: int
+    d: float
+    hx: float
+    hy: float
     C: np.ndarray
     U: np.ndarray
+
+    def get_screen_coord(self, P, width, height):
+        P_ = self.get_norm_coord(P)
+        i = self.get_screen_x_coord(P_[0], width)
+        j = self.get_screen_y_coord(P_[1], height)
+        return np.array([int(i), int(j)])
+
+    def get_screen_x_coord(self, xs, width):
+        return np.floor(((xs + 1) / 2) * width + 0.5)
+    
+    def get_screen_y_coord(self, ys, height):
+        return np.floor(height - ((ys + 1) / 2) * height + 0.5)
 
     def get_norm_coord(self, P):
         vec = self.p_(P)

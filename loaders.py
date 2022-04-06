@@ -27,7 +27,7 @@ class TriangleLoader(Loader):
 
                 for line in lines[1:number_vertices+1]:
                     x, y, z = line.split()
-                    vertices.append(np.array([x, y, z]))
+                    vertices.append(np.array([float(x), float(y), float(z)]))
 
                 for line in lines[number_vertices+1:]:
                     a, b, c = line.split()
@@ -69,24 +69,29 @@ class CameraLoader(Loader, Matrix, Vector):
         try:
             with open(file, 'r') as f:
                 lines = f.readlines()
-                N = np.array([int(e) for e in lines[0].split()])
-                V = np.array([int(e) for e in lines[1].split()])
-                d = int(lines[2])
-                hx = int(lines[3])
-                hy = int(lines[4])
-                C = np.array([int(e) for e in lines[5].split()])
+                N = np.array([float(e) for e in lines[0].split()])
+                V = np.array([float(e) for e in lines[1].split()])
+                d = float(lines[2])
+                hx = float(lines[3])
+                hy = float(lines[4])
+                C = np.array([float(e) for e in lines[5].split()])
             return N, V, d, hx, hy, C
         except FileNotFoundError:
             print('Camera file was not found')
 
 
 if __name__ == '__main__':
+    import settings 
+
     tl = TriangleLoader()
-    triangles = tl.load('data/input.txt')
+    triangles = tl.load(settings.INPUT_FILE)
     for t in triangles:
         print(t)
 
     cl = CameraLoader()
-    camera = cl.load('data/camera_test.txt')
-    print(camera)
-    print(camera.world2sight(np.array([1, -3, -5])))
+    camera = cl.load(settings.CAMERA_FILE)
+    P = np.array([1, -3, -5])
+    SP = camera.get_screen_coord(P, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
+    print(P)
+    print(triangles[0].v1)
+    camera.get_screen_coord(triangles[0].v1, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
