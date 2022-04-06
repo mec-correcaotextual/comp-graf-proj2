@@ -63,7 +63,11 @@ class Vector:
 
     @classmethod
     def orth(cls, N, V):
-        return cls.sub_vecs(V, cls.prod_scaler_vec(N, cls.dot_product(V, N) / cls.dot_product(N, N)))
+        return cls.sub_vecs(
+            V, cls.prod_scaler_vec(
+                N, cls.dot_product(V, N) / cls.dot_product(N, N)
+            )
+        )
 
 if __name__ == '__main__':
     import numpy as np
