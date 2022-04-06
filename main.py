@@ -18,18 +18,17 @@ def main():
     triangles = tl.load(settings.INPUT_FILE)
     camera = cl.load(settings.CAMERA_FILE)
 
-    v1 = camera.get_screen_coord(triangles[0].v1, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
-    v2 = camera.get_screen_coord(triangles[0].v2, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
-    v3 = camera.get_screen_coord(triangles[0].v3, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
-
-    print(v1, v2, v3)
-
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
         
         window.fill('black')
+
+        for t in triangles:
+            v1 = camera.get_screen_coord(t.v1, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
+            v2 = camera.get_screen_coord(t.v2, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
+            v3 = camera.get_screen_coord(t.v3, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
 
         TriangleDrawer.draw(window, Triangle(v1, v2, v3), pygame.Color(255, 255, 255))
 
