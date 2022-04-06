@@ -74,10 +74,7 @@ class TriangleDrawer(Drawer):
         elif triangle.v1[1] == triangle.v2[1]:
             cls.draw_top_flat(surface, triangle, color)
         else:
-            aux = triangle.v1[0] + (triangle.v2[1] - triangle.v1[1]) / (triangle.v3[1] - triangle.v1[1]) * (triangle.v3[0] - triangle.v1[0])
-            v4 = np.array([int(aux), triangle.v2[1]])
-            cls.draw_bottom_flat(surface, Triangle(triangle.v1, triangle.v2, v4), color)
-            # cls.draw_top_flat(surface, Triangle(triangle.v2, v4, triangle.v3), color)
+            cls.draw_(surface, triangle, color)
 
     @classmethod
     def draw_bottom_flat(cls, surface, triangle: Triangle, color):
@@ -100,8 +97,6 @@ class TriangleDrawer(Drawer):
         inv_slope1 = (triangle.v2[0] - triangle.v1[0]) / (triangle.v2[1] - triangle.v1[1])
         inv_slope2 = (triangle.v3[0] - triangle.v1[0]) / (triangle.v3[1] - triangle.v1[1])
 
-        print(triangle)
-
         curx1 = int(triangle.v3[0])
         curx2 = int(triangle.v3[0])
 
@@ -111,6 +106,26 @@ class TriangleDrawer(Drawer):
             curx1 -= inv_slope1
             curx2 -= inv_slope2
             scanline_y -= 1
+
+    @classmethod
+    def draw_(cls, surface, triangle: Triangle, color):
+        inv_slope1 = (triangle.v2[0] - triangle.v1[0]) / (triangle.v2[1] - triangle.v1[1])
+        inv_slope2 = (triangle.v3[0] - triangle.v1[0]) / (triangle.v3[1] - triangle.v1[1])
+
+        curx1 = triangle.v1[0]
+        curx2 = triangle.v1[0]
+
+        scanline_y = triangle.v1[1]
+
+        while scanline_y <= triangle.v2[1]:
+            cls.draw_line(surface, [int(curx1), int(scanline_y)], [int(curx2), int(scanline_y)], color)
+
+            if curx1 == curx2:
+                cls.draw_top_flat(surface, Triangle(triangle.v2, np.array([curx2, triangle.v3[1] + (curx1 - scanline_y)]), triangle.v3), color)
+
+            curx1 += inv_slope1
+            curx2 += inv_slope2
+            scanline_y += 1
     
     @classmethod
     def sort_triangle_vertices_asc(cls, triangle: Triangle):
