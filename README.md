@@ -18,3 +18,6 @@ O resultado será como mostrado na seguinte imagem:
 ![Triângulo sendo mostrado na tela](/assets/example.png)
 
 O triângulo mostrado na tela foi feito com base nos algoritmos apresentados em aula para rasterização de triângulos completos.
+
+## Observações
+Para atualizar o arquivo de câmera e de entrada enquanto o programa está em execução basta usar a tecla SPACE.
