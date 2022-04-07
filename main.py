@@ -24,7 +24,6 @@ def main():
                 run = False
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                print('test')
                 triangles = tl.load(settings.INPUT_FILE)
                 camera = cl.load(settings.CAMERA_FILE)
         
