@@ -34,11 +34,11 @@ def main():
             v2 = camera.get_screen_coord(t.v2, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
             v3 = camera.get_screen_coord(t.v3, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
 
-        TriangleDrawer.draw(window, Triangle(v1, v2, v3), pygame.Color(255, 255, 255))
+            Drawer.draw_pixel(window, v1[0], v1[1], pygame.Color(255, 255, 255))
+            Drawer.draw_pixel(window, v2[0], v2[1], pygame.Color(255, 255, 255))
+            Drawer.draw_pixel(window, v3[0], v3[1], pygame.Color(255, 255, 255))
 
-        Drawer.draw_pixel(window, v1[0], v1[1], pygame.Color(255, 255, 255))
-        Drawer.draw_pixel(window, v2[0], v2[1], pygame.Color(255, 255, 255))
-        Drawer.draw_pixel(window, v3[0], v3[1], pygame.Color(255, 255, 255))
+            # TriangleDrawer.draw(window, Triangle(v1, v2, v3), pygame.Color(255, 255, 255))
 
         pygame.display.update()
 

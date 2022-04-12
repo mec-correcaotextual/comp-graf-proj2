@@ -57,10 +57,10 @@ class CameraLoader(Loader, Matrix, Vector):
 
     def load(self, file):
         N, V, d, hx, hy, C = self.get_values(file)
-        V_ = self.orth(N, V)
-        V_norm = self.normalize(V_)
-        N_norm = self.normalize(N)        
+        V_ = self.orth(N, V)      
         U = self.cross_prod(N, V_)
+        V_norm = self.normalize(V_)
+        N_norm = self.normalize(N)  
         U_norm = self.normalize(U)
         return Camera(N_norm, V_norm, d, hx, hy, C, U_norm)
 

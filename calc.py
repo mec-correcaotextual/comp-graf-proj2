@@ -6,13 +6,12 @@ import numpy as np
 class Matrix:
     @classmethod
     def mult_matrix_vec(cls, M, V):
-        aux = []
-        for i in range(M.shape[0]):
-            sum = 0.0
-            for j in range(M.shape[1]):
-                sum += M[i][j] * V[j]
-            aux.append(sum)
-        return np.array(aux)
+        result = np.zeros((M.shape[0]))
+        for i in range(0, M.shape[0]):
+            for j in range(0, M.shape[1]):
+                result[i] += M[i][j] * V[j]
+        return result
+
 
 class Vector:
     @classmethod
@@ -45,7 +44,7 @@ class Vector:
             r = s / magnitude
             aux.append(r)
         return np.array(aux)
-    
+
     @classmethod
     def sub_vecs(cls, X, Y):
         assert len(X) == len(Y)
@@ -68,6 +67,7 @@ class Vector:
                 N, cls.dot_product(V, N) / cls.dot_product(N, N)
             )
         )
+
 
 if __name__ == '__main__':
     import numpy as np
