@@ -38,7 +38,16 @@ def main():
             Drawer.draw_pixel(window, v2[0], v2[1], pygame.Color(255, 255, 255))
             Drawer.draw_pixel(window, v3[0], v3[1], pygame.Color(255, 255, 255))
 
-            # TriangleDrawer.draw(window, Triangle(v1, v2, v3), pygame.Color(255, 255, 255))
+            TriangleDrawer.draw(window, Triangle(v1, v2, v3), pygame.Color(255, 255, 255))
+
+            # pygame.draw.polygon(surface=window, color=pygame.Color(255, 255, 255), points=[
+            #     (v1[0], v1[1]),
+            #     (v2[0], v2[1]),
+            #     (v3[0], v3[1])
+            # ])
+            # Drawer.draw_line(window, v1, v2, pygame.Color(255, 255, 255))
+            # Drawer.draw_line(window, v2, v3, pygame.Color(255, 255, 255))
+            # Drawer.draw_line(window, v3, v1, pygame.Color(255, 255, 255))
 
         pygame.display.update()
 
