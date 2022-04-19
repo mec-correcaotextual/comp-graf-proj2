@@ -3,7 +3,7 @@ import warnings
 import numpy as np
 from pygame import gfxdraw
 
-from geo import Triangle
+from datastructures import Triangle
 
 
 warnings.filterwarnings('ignore')

@@ -30,7 +30,7 @@ class Camera(Vector, Matrix):
 
     def get_screen_x_coord(self, xs, width):
         return np.floor(((xs + 1) / 2) * width + 0.5)
-    
+
     def get_screen_y_coord(self, ys, height):
         return np.floor(height - ((ys + 1) / 2) * height + 0.5)
 
@@ -50,3 +50,15 @@ class Camera(Vector, Matrix):
         I_e_alpha = np.array([self.U, self.V, self.N])
         P_ = self.mult_matrix_vec(I_e_alpha, self.sub_vecs(P, self.C))
         return P_
+
+
+@dataclass
+class Lightning:
+    Iam: np.ndarray
+    Ka: float
+    Il: np.ndarray
+    Pl: np.ndarray
+    Kd: np.ndarray
+    Od: np.ndarray
+    Ks: float
+    n: int

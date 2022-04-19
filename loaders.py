@@ -3,7 +3,7 @@ from typing import List
 
 import numpy as np
 
-from geo import Camera, Triangle
+from datastructures import Camera, Lightning, Triangle
 from calc import Matrix, Vector
 
 
@@ -31,9 +31,10 @@ class TriangleLoader(Loader):
 
                 for line in lines[number_vertices+1:]:
                     a, b, c = line.split()
-                    selected_vertices = self._select_vertices(vertices, [int(a), int(b), int(c)])
+                    selected_vertices = self._select_vertices(
+                        vertices, [int(a), int(b), int(c)])
                     triangles.append(self._init_triangle(selected_vertices))
-            
+
             return triangles
 
         except FileNotFoundError:
@@ -42,7 +43,7 @@ class TriangleLoader(Loader):
     def _get_number_of_vertices(self, lines: List[str]) -> int:
         number_vertices, _ = lines[0].split()
         return int(number_vertices)
-    
+
     def _init_triangle(self, vertices) -> Triangle:
         return Triangle(*vertices)
 
@@ -57,13 +58,12 @@ class CameraLoader(Loader, Matrix, Vector):
 
     def load(self, file):
         N, V, d, hx, hy, C = self.get_values(file)
-        V_ = self.orth(N, V)      
+        V_ = self.orth(N, V)
         U = self.cross_prod(N, V_)
         V_norm = self.normalize(V_)
-        N_norm = self.normalize(N)  
+        N_norm = self.normalize(N)
         U_norm = self.normalize(U)
         return Camera(N_norm, V_norm, d, hx, hy, C, U_norm)
-
 
     def get_values(self, file):
         try:
@@ -80,18 +80,29 @@ class CameraLoader(Loader, Matrix, Vector):
             print('Camera file was not found')
 
 
+class LightningLoader(Loader):
+    @classmethod
+    def load(cls, file):
+        with open(file, 'r') as f:
+            lines = f.readlines()
+            lightning = cls._init_lightning(lines)
+        return lightning
+
+    @classmethod
+    def _init_lightning(cls, lines: List[str]) -> Lightning:
+        Iamb = np.array([int(e) for e in lines[0].split()])
+        Ka = float(lines[1])
+        Il = np.array([int(e) for e in lines[2].split()])
+        Pl = np.array([int(e) for e in lines[3].split()])
+        Kd = np.array([float(e) for e in lines[4].split()])
+        Od = np.array([float(e) for e in lines[5].split()])
+        Ks = float(lines[6])
+        n = int(lines[7])
+        return Lightning(Iamb, Ka, Il, Pl, Kd, Od, Ks, n)
+
+
 if __name__ == '__main__':
-    import settings 
+    import settings
 
-    tl = TriangleLoader()
-    triangles = tl.load(settings.INPUT_FILE)
-    for t in triangles:
-        print(t)
-
-    cl = CameraLoader()
-    camera = cl.load(settings.CAMERA_FILE)
-    P = np.array([1, -3, -5])
-    SP = camera.get_screen_coord(P, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
-    print(P)
-    print(triangles[0].v1)
-    camera.get_screen_coord(triangles[0].v1, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
+    lightning = LightningLoader.load(settings.LIGHTNING_FILE)
+    print(lightning)

@@ -3,7 +3,7 @@ import pygame
 import settings
 
 from drawing import Drawer, TriangleDrawer
-from geo import Triangle
+from datastructures import Triangle
 from loaders import TriangleLoader, CameraLoader
 
 

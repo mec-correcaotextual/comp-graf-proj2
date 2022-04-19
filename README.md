@@ -21,3 +21,21 @@ O triângulo mostrado na tela foi feito com base nos algoritmos apresentados em 
 
 ## Observações
 Para atualizar o arquivo de câmera e de entrada enquanto o programa está em execução basta usar a tecla SPACE.
+
+## Arquivo de câmera
+N
+V
+d
+hx
+hy
+C
+
+# Arquivo de iluminação
+Iamb
+Ka
+Il
+Pl
+Kd
+Od
+Ks
+n
